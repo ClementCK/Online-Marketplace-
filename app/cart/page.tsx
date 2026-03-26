@@ -3,16 +3,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useCartStore } from '@/store/cartStore'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, totalPrice } = useCartStore()
 
   return (
-    <>
-      <Header />
-      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         <h1 className="text-2xl font-bold text-(--color-foreground) mb-6">Shopping Cart</h1>
 
         {items.length === 0 ? (
@@ -118,8 +114,6 @@ export default function CartPage() {
             </div>
           </div>
         )}
-      </main>
-      <Footer />
-    </>
+    </main>
   )
 }

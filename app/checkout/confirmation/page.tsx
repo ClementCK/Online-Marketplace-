@@ -1,7 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import type { Order, OrderItem } from '@/lib/database.types'
 
 export default async function ConfirmationPage({
@@ -29,9 +27,7 @@ export default async function ConfirmationPage({
     })
 
   return (
-    <>
-      <Header />
-      <main className="flex-1 max-w-2xl mx-auto px-4 sm:px-6 py-12 w-full">
+    <main className="flex-1 max-w-2xl mx-auto px-4 sm:px-6 py-12 w-full">
         <div className="text-center mb-8">
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-2xl font-bold text-(--color-foreground)">Order Confirmed!</h1>
@@ -98,8 +94,6 @@ export default async function ConfirmationPage({
             Continue Shopping
           </Link>
         </div>
-      </main>
-      <Footer />
-    </>
+    </main>
   )
 }

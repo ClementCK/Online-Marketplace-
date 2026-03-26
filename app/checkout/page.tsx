@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useCartStore } from '@/store/cartStore'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import type { ExchangeSlot } from '@/lib/database.types'
 import toast from 'react-hot-toast'
 
@@ -104,9 +102,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <>
-      <Header />
-      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         <h1 className="text-2xl font-bold text-(--color-foreground) mb-6">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -201,8 +197,6 @@ export default function CheckoutPage() {
             </button>
           </div>
         </div>
-      </main>
-      <Footer />
-    </>
+    </main>
   )
 }

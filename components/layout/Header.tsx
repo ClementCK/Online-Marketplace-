@@ -1,40 +1,22 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useCartStore } from '@/store/cartStore'
 import type { User } from '@supabase/supabase-js'
 
-export default function Header() {
-  const [user, setUser] = useState<User | null>(null)
-  const [isAdmin, setIsAdmin] = useState(false)
+interface HeaderProps {
+  user: User | null
+  isAdmin: boolean
+}
+
+export default function Header({ user, isAdmin }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const router = useRouter()
   const supabase = createClient()
   const totalItems = useCartStore((s) => s.totalItems())
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user)
-      if (user) {
-        supabase
-          .from('profiles')
-          .select('is_admin')
-          .eq('id', user.id)
-          .single()
-          .then(({ data }) => setIsAdmin(data?.is_admin ?? false))
-      }
-    })
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-      setUser(session?.user ?? null)
-      if (!session?.user) setIsAdmin(false)
-    })
-
-    return () => subscription.unsubscribe()
-  }, [])
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
@@ -58,7 +40,7 @@ export default function Header() {
               Shop
             </Link>
             {isAdmin && (
-              <Link href="/admin" className="hover:text-(--color-accent) transition-colors">
+              <Link href="/admin" className="bg-(--color-accent) text-(--color-foreground) px-3 py-1 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity">
                 Admin
               </Link>
             )}
@@ -117,7 +99,11 @@ export default function Header() {
         {menuOpen && (
           <div className="md:hidden pb-4 flex flex-col gap-3 text-sm font-medium border-t border-white/20 pt-3">
             <Link href="/products" onClick={() => setMenuOpen(false)}>Shop</Link>
-            {isAdmin && <Link href="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>}
+            {isAdmin && (
+              <Link href="/admin" onClick={() => setMenuOpen(false)} className="font-bold text-(--color-accent)">
+                Admin Panel
+              </Link>
+            )}
             {user ? (
               <>
                 <Link href="/account/orders" onClick={() => setMenuOpen(false)}>My Orders</Link>

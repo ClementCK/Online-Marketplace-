@@ -1,7 +1,5 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import ProductCard from '@/components/products/ProductCard'
 
 export default async function HomePage() {
@@ -25,9 +23,7 @@ export default async function HomePage() {
   ]
 
   return (
-    <>
-      <Header />
-      <main className="flex-1">
+    <main className="flex-1">
         {/* Hero */}
         <section className="bg-gradient-to-br from-(--color-primary) to-(--color-primary-light) text-white py-16 px-4">
           <div className="max-w-4xl mx-auto text-center">
@@ -128,8 +124,6 @@ export default async function HomePage() {
             Browse All Items
           </Link>
         </section>
-      </main>
-      <Footer />
-    </>
+    </main>
   )
 }

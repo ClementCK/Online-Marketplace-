@@ -1,6 +1,4 @@
 import { createClient } from '@/lib/supabase/server'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import ProductCard from '@/components/products/ProductCard'
 import ProductFilters from '@/components/products/ProductFilters'
 
@@ -53,9 +51,7 @@ export default async function ProductsPage({
   const totalPages = Math.ceil((count || 0) / PAGE_SIZE)
 
   return (
-    <>
-      <Header />
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         <h1 className="text-2xl font-bold text-(--color-foreground) mb-6">
           {params.category
             ? params.category.charAt(0).toUpperCase() + params.category.slice(1)
@@ -109,8 +105,6 @@ export default async function ProductsPage({
             )}
           </div>
         </div>
-      </main>
-      <Footer />
-    </>
+    </main>
   )
 }

@@ -6,8 +6,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useCartStore } from '@/store/cartStore'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
 import type { Product } from '@/lib/database.types'
 import toast from 'react-hot-toast'
 
@@ -45,13 +43,9 @@ export default function ProductDetailPage() {
 
   if (loading) {
     return (
-      <>
-        <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <div className="text-(--color-muted)">Loading…</div>
-        </main>
-        <Footer />
-      </>
+      <main className="flex-1 flex items-center justify-center">
+        <div className="text-(--color-muted)">Loading…</div>
+      </main>
     )
   }
 
@@ -67,9 +61,7 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <>
-      <Header />
-      <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
         {/* Breadcrumb */}
         <nav className="text-sm text-(--color-muted) mb-6">
           <Link href="/" className="hover:text-(--color-primary)">Home</Link>
@@ -192,8 +184,6 @@ export default function ProductDetailPage() {
             </div>
           </div>
         </div>
-      </main>
-      <Footer />
-    </>
+    </main>
   )
 }
