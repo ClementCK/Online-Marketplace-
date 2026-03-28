@@ -208,6 +208,10 @@ export type Database = {
         Args: { product_id: string; qty: number }
         Returns: undefined
       }
+      cancel_order_with_stock_restore: {
+        Args: { p_order_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
