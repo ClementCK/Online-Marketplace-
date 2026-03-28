@@ -43,11 +43,8 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // Protect /checkout and /account routes
-  if (
-    request.nextUrl.pathname.startsWith('/checkout') ||
-    request.nextUrl.pathname.startsWith('/account')
-  ) {
+  // Protect /account routes (checkout handles its own auth gate)
+  if (request.nextUrl.pathname.startsWith('/account')) {
     if (!user) {
       return NextResponse.redirect(new URL(`/login?next=${request.nextUrl.pathname}`, request.url))
     }

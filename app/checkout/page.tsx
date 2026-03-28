@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useCartStore } from '@/store/cartStore'
 import type { ExchangeSlot } from '@/lib/database.types'
+import type { User } from '@supabase/supabase-js'
 import toast from 'react-hot-toast'
+import { MIN_ORDER_AMOUNT } from '@/lib/constants'
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -14,8 +17,14 @@ export default function CheckoutPage() {
   const [slots, setSlots] = useState<ExchangeSlot[]>([])
   const [selectedSlot, setSelectedSlot] = useState<ExchangeSlot | null>(null)
   const [placing, setPlacing] = useState(false)
+  const [user, setUser] = useState<User | null | undefined>(undefined) // undefined = loading
 
   useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => setUser(user))
+  }, [])
+
+  useEffect(() => {
+    if (!user) return
     if (items.length === 0) {
       router.push('/cart')
       return
@@ -28,20 +37,26 @@ export default function CheckoutPage() {
       .order('date', { ascending: true })
       .order('time_slot', { ascending: true })
       .then(({ data }) => setSlots(data || []))
-  }, [])
+  }, [user, items.length])
 
   const handlePlaceOrder = async () => {
     if (!selectedSlot) {
       toast.error('Please select an exchange slot')
       return
     }
-
-    setPlacing(true)
-    const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       router.push('/login?next=/checkout')
       return
     }
+
+    // Min order validation
+    if (totalPrice() < MIN_ORDER_AMOUNT) {
+      toast.error(`Minimum order is HK$${MIN_ORDER_AMOUNT}`)
+      router.push('/cart')
+      return
+    }
+
+    setPlacing(true)
 
     const orderItems = items.map(({ product, quantity }) => ({
       product_id: product.id,
@@ -82,6 +97,29 @@ export default function CheckoutPage() {
       .update({ current_bookings: selectedSlot.current_bookings + 1 })
       .eq('id', selectedSlot.id)
 
+    // Fetch profile for email
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('full_name, phone')
+      .eq('id', user.id)
+      .single()
+
+    // Send confirmation email (fire and forget – don't block order)
+    fetch('/api/send-order-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        orderId: order.id,
+        userEmail: user.email,
+        userName: profile?.full_name || '',
+        userPhone: profile?.phone || '',
+        orderItems,
+        totalAmount: totalPrice(),
+        exchangeDate: selectedSlot.date,
+        exchangeTimeSlot: selectedSlot.time_slot,
+      }),
+    }).catch((err) => console.error('Email send error:', err))
+
     clearCart()
     router.push(`/checkout/confirmation?order_id=${order.id}`)
   }
@@ -99,6 +137,47 @@ export default function CheckoutPage() {
     return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-HK', {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     })
+  }
+
+  // Still loading auth state
+  if (user === undefined) {
+    return (
+      <main className="flex-1 flex items-center justify-center">
+        <div className="text-(--color-muted)">Loading…</div>
+      </main>
+    )
+  }
+
+  // Not signed in — show auth gate
+  if (user === null) {
+    return (
+      <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 w-full">
+        <div className="max-w-md mx-auto text-center">
+          <div className="text-5xl mb-4">🛒</div>
+          <h1 className="text-2xl font-bold text-(--color-foreground) mb-2">Sign in to complete your order</h1>
+          <p className="text-(--color-muted) mb-8 text-sm">
+            Please sign in to select an exchange slot and confirm your order. Your cart will be kept.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/login?next=/checkout"
+              className="flex-1 bg-(--color-primary) text-white py-3 rounded-xl font-semibold hover:bg-(--color-primary-dark) transition-colors text-center"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/signup?next=/checkout"
+              className="flex-1 border-2 border-(--color-primary) text-(--color-primary) py-3 rounded-xl font-semibold hover:bg-blue-50 transition-colors text-center"
+            >
+              Create Account
+            </Link>
+          </div>
+          <Link href="/cart" className="block mt-4 text-sm text-(--color-muted) hover:text-(--color-primary)">
+            ← Back to cart
+          </Link>
+        </div>
+      </main>
+    )
   }
 
   return (

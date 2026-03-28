@@ -31,7 +31,7 @@ export default function Header({ user, isAdmin }: HeaderProps) {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 font-bold text-xl">
             <span className="text-2xl">🛍️</span>
-            <span>PinoyMart <span className="text-(--color-accent)">HK</span></span>
+            <span>CC <span className="text-(--color-accent)">Pre-loved</span></span>
           </Link>
 
           {/* Desktop Nav */}

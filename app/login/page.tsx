@@ -34,7 +34,7 @@ function LoginForm() {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <div className="text-center mb-8">
           <Link href="/" className="text-3xl font-bold text-(--color-primary)">
-            🛍️ PinoyMart HK
+            🛍️ CC Pre-loved
           </Link>
           <h1 className="text-2xl font-bold mt-4 text-(--color-foreground)">Welcome back</h1>
           <p className="text-(--color-muted) mt-1 text-sm">Sign in to your account</p>

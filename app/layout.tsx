@@ -12,8 +12,8 @@ const geistSans = Geist({
 })
 
 export const metadata: Metadata = {
-  title: 'PinoyMart HK – Filipino Online Shopping in Hong Kong',
-  description: 'Shop pre-owned clothing from the Filipino community in Hong Kong. Browse tops, bottoms, dresses and more.',
+  title: 'CC Pre-loved – Your Fashionable Marketplace in HK',
+  description: 'Shop pre-loved clothing in Hong Kong. Affordable prices, great condition, perfect for your weekend try-ons!',
 }
 
 export default async function RootLayout({

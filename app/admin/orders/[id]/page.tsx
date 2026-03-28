@@ -36,16 +36,33 @@ export default function AdminOrderDetailPage() {
   const updateStatus = async (status: string) => {
     if (!order) return
     setSaving(true)
-    const { error } = await supabase
-      .from('orders')
-      .update({ status, admin_notes: notes })
-      .eq('id', order.id)
 
-    if (error) toast.error('Update failed')
-    else {
-      toast.success(`Order marked as ${status}`)
-      setOrder({ ...order, status: status as any })
+    // Save notes first
+    await supabase.from('orders').update({ admin_notes: notes }).eq('id', order.id)
+
+    if (status === 'cancelled') {
+      // Use cancel API for atomic stock restoration
+      const res = await fetch('/api/cancel-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId: order.id }),
+      })
+      if (!res.ok) {
+        const data = await res.json()
+        toast.error(data.error || 'Failed to cancel order')
+        setSaving(false)
+        return
+      }
+    } else {
+      const { error } = await supabase
+        .from('orders')
+        .update({ status })
+        .eq('id', order.id)
+      if (error) { toast.error('Update failed'); setSaving(false); return }
     }
+
+    toast.success(`Order marked as ${status}`)
+    setOrder({ ...order, status: status as any })
     setSaving(false)
   }
 

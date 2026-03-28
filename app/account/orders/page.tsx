@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import type { Order, OrderItem } from '@/lib/database.types'
+import CancelOrderButton from '@/components/orders/CancelOrderButton'
 
 const statusColors: Record<string, string> = {
   confirmed: 'bg-blue-100 text-blue-700',
@@ -74,6 +75,9 @@ export default async function OrdersPage() {
                       <p className="text-sm font-medium text-(--color-foreground)">
                         💰 Total: HK${order.total_amount.toFixed(0)}
                       </p>
+                      {order.status === 'confirmed' && (
+                        <CancelOrderButton orderId={order.id} />
+                      )}
                     </div>
                     {order.status === 'confirmed' && (
                       <div className="text-right">

@@ -3,9 +3,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useCartStore } from '@/store/cartStore'
+import { MIN_ORDER_AMOUNT } from '@/lib/constants'
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, totalPrice } = useCartStore()
+  const subtotal = totalPrice()
+  const remaining = MIN_ORDER_AMOUNT - subtotal
+  const meetsMinimum = subtotal >= MIN_ORDER_AMOUNT
 
   return (
     <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
@@ -93,18 +97,35 @@ export default function CartPage() {
                   </div>
                 ))}
               </div>
-              <div className="border-t border-(--color-border) pt-3 mb-5">
+              <div className="border-t border-(--color-border) pt-3 mb-3">
                 <div className="flex justify-between font-bold text-(--color-foreground)">
                   <span>Total</span>
-                  <span>HK${totalPrice().toFixed(0)}</span>
+                  <span>HK${subtotal.toFixed(0)}</span>
                 </div>
               </div>
-              <Link
-                href="/checkout"
-                className="block w-full bg-(--color-primary) text-white text-center py-3 rounded-xl font-semibold hover:bg-(--color-primary-dark) transition-colors"
-              >
-                Proceed to Checkout
-              </Link>
+
+              {!meetsMinimum && (
+                <p className="text-red-600 text-xs mb-4 leading-snug">
+                  Your order total must be at least HK${MIN_ORDER_AMOUNT} to proceed to checkout.
+                  Add <strong>HK${remaining.toFixed(0)}</strong> more to your cart.
+                </p>
+              )}
+
+              {meetsMinimum ? (
+                <Link
+                  href="/checkout"
+                  className="block w-full bg-(--color-primary) text-white text-center py-3 rounded-xl font-semibold hover:bg-(--color-primary-dark) transition-colors"
+                >
+                  Proceed to Checkout
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  className="block w-full bg-gray-300 text-gray-500 text-center py-3 rounded-xl font-semibold cursor-not-allowed"
+                >
+                  Proceed to Checkout
+                </button>
+              )}
               <Link
                 href="/products"
                 className="block w-full text-center text-(--color-muted) text-sm mt-3 hover:text-(--color-primary)"

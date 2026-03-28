@@ -7,10 +7,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-bold text-lg mb-3">
-              🛍️ PinoyMart <span className="text-(--color-accent)">HK</span>
+              🛍️ CC <span className="text-(--color-accent)">Pre-loved</span>
             </h3>
             <p className="text-white/70 text-sm leading-relaxed">
-              Your trusted Filipino online shopping marketplace in Hong Kong. Pre-loved clothing, great prices.
+              Your fashionable pre-loved shopping marketplace in Hong Kong. Affordable prices, great condition.
             </p>
           </div>
           <div>
@@ -31,7 +31,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-white/20 mt-8 pt-6 text-center text-sm text-white/50">
-          © {new Date().getFullYear()} PinoyMart HK. All rights reserved.
+          © {new Date().getFullYear()} CC Pre-loved. All rights reserved.
         </div>
       </div>
     </footer>

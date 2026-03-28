@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import ProductCard from '@/components/products/ProductCard'
+import MinOrderBanner from '@/components/MinOrderBanner'
 
 export default async function HomePage() {
   const supabase = await createClient()
@@ -28,10 +29,10 @@ export default async function HomePage() {
         <section className="bg-gradient-to-br from-(--color-primary) to-(--color-primary-light) text-white py-16 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-              Your Filipino Shopping<br />Marketplace in 🇭🇰 HK
+              Your Fashionable Shopping<br />Marketplace in 🇭🇰 HK
             </h1>
             <p className="text-white/80 text-lg mb-8 max-w-xl mx-auto">
-              Discover affordable pre-loved clothing from the Filipino community. New items added weekly!
+              Affordable prices, great condition, perfect for your weekend try-ons!
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
@@ -50,10 +51,13 @@ export default async function HomePage() {
             <div className="mt-10 flex flex-wrap justify-center gap-6 text-sm text-white/70">
               <span>✅ Pre-loved clothing</span>
               <span>✅ Weekend in-person exchange</span>
-              <span>✅ Filipino community trusted</span>
+              <span>✅ Trusted community in HK</span>
             </div>
           </div>
         </section>
+
+        {/* Min order banner */}
+        <MinOrderBanner />
 
         {/* How it works */}
         <section className="py-12 px-4 bg-white">
@@ -116,7 +120,7 @@ export default async function HomePage() {
         {/* CTA Banner */}
         <section className="py-12 px-4 bg-(--color-primary) text-white text-center">
           <h2 className="text-2xl font-bold mb-3">Ready to shop?</h2>
-          <p className="text-white/80 mb-6 text-sm">Browse hundreds of pre-loved items from the Filipino community in HK</p>
+          <p className="text-white/80 mb-6 text-sm">Browse hundreds of pre-loved items at great prices in HK</p>
           <Link
             href="/products"
             className="inline-block bg-(--color-accent) text-(--color-foreground) px-8 py-3 rounded-full font-bold hover:opacity-90 transition-opacity"
