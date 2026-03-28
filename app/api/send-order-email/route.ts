@@ -2,7 +2,7 @@ import { Resend } from 'resend'
 import { NextResponse } from 'next/server'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
-const EXCHANGE_LOCATION = process.env.EXCHANGE_LOCATION || 'Mong Kok MTR Station, Exit D'
+const EXCHANGE_LOCATION = process.env.EXCHANGE_LOCATION || 'Central MTR Station, Exit A'
 // Support comma-separated list of admin emails
 const ADMIN_EMAILS = (process.env.ADMIN_EMAIL || '').split(',').map(e => e.trim()).filter(Boolean)
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://cc-preloved.vercel.app'

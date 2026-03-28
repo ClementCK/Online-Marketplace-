@@ -116,7 +116,7 @@ export default function AdminOrderDetailPage() {
           <div className="space-y-1 text-sm">
             <p><strong>Date:</strong> {formatDate(order.exchange_date)}</p>
             <p><strong>Time:</strong> {order.exchange_time_slot}</p>
-            <p><strong>Location:</strong> Central, Hong Kong</p>
+            <p><strong>Location:</strong> Central MTR Station, Exit A</p>
           </div>
         </div>
 

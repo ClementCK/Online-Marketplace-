@@ -233,7 +233,7 @@ export default function CheckoutPage() {
             {/* Exchange Info */}
             <div className="mt-4 p-4 bg-blue-50 rounded-xl text-sm text-blue-800 border border-blue-200">
               <p className="font-semibold mb-1">📍 Exchange Location</p>
-              <p>Central, Hong Kong (exact location shared after booking)</p>
+              <p>Central MTR Station, Exit A</p>
             </div>
           </div>
 

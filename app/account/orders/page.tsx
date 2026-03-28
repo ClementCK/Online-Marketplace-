@@ -85,7 +85,7 @@ export default async function OrdersPage() {
                         <p className="text-xs text-(--color-muted)">
                           {formatDate(order.exchange_date)} · {order.exchange_time_slot}
                         </p>
-                        <p className="text-xs text-(--color-muted)">📍 Central, Hong Kong</p>
+                        <p className="text-xs text-(--color-muted)">📍 Central MTR Station, Exit A</p>
                       </div>
                     )}
                   </div>

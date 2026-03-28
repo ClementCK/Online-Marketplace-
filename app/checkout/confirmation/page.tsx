@@ -51,7 +51,7 @@ export default async function ConfirmationPage({
             </div>
             <div className="flex justify-between">
               <span className="font-medium">Location:</span>
-              <span>Central, Hong Kong</span>
+              <span>Central MTR Station, Exit A</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium">Payment:</span>
